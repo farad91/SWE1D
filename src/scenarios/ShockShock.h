@@ -67,6 +67,14 @@ public:
 
 		return 250;
 	}
+	
+	/**
+	 * @return Initial momentum at pos
+	 */
+	unsigned int getMomentum(unsigned int pos)
+	{
+		return 0;
+	}
 
 	/**
 	 * @return Cell size of one cell (= domain size/number of cells)
