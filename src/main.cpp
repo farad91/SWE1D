@@ -36,9 +36,12 @@
 
 #include "types.h"
 
-// possible scenarios
 #include "WavePropagation.h"
+
+// possible scenarios
 #include "scenarios/dambreak.h"
+//#include "scenarios/ShockShock.h"
+//#include "scenarios/rarerare.h"
 
 //#include "writer/ConsoleWriter.h"
 #include "writer/VtkWriter.h"

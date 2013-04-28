@@ -49,7 +49,7 @@ private:
 	const unsigned int m_size;
 
 public:
-	DamBreak(unsigned int size)
+	RareRare(unsigned int size)
 		: m_size(size)
 	{
 	}
@@ -65,12 +65,12 @@ public:
 	/**
 	 * @return Initial momentum at pos
 	 */
-	unsigned int getMomentum(unsigned int pos)
+	signed int getMomentum(unsigned int pos)
 	{
 		if(pos < m_size/2)
-			return -6.0;
+			return -100;
 		else
-			return 6.0;
+			return 100;
 	}
 	
 	/**

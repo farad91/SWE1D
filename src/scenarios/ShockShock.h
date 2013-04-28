@@ -59,21 +59,20 @@ public:
 	 */
 	unsigned int getHeight(unsigned int pos)
 	{
-		if (pos < m_size/3)
-			return 280;
-			
-		if (pos > (2*m_size)/3)
-    	    return 280;
-
 		return 250;
 	}
 	
 	/**
 	 * @return Initial momentum at pos
 	 */
-	unsigned int getMomentum(unsigned int pos)
+	int getMomentum(unsigned int pos)
 	{
-		return 0;
+		if(pos < m_size/2.0)
+			return 100;
+		else if(pos >= m_size/2.0)
+			return -100;
+		else
+			return 0;
 	}
 
 	/**

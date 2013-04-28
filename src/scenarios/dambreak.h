@@ -47,10 +47,11 @@ class DamBreak
 private:
 	/** Number of cells */
 	const unsigned int m_size;
+        const unsigned int edge_pos;
 
 public:
 	DamBreak(unsigned int size)
-		: m_size(size)
+		: m_size(size), edge_pos(size/4)
 	{
 	}
 
@@ -59,8 +60,8 @@ public:
 	 */
 	unsigned int getHeight(unsigned int pos)
 	{
-		if (pos <= m_size/2)
-			return 253;
+		if (pos <= edge_pos)
+			return 280;
 
 		return 250;
 	}
@@ -68,8 +69,11 @@ public:
 	/**
 	 * @return Initial momentum at pos
 	 */
-	unsigned int getMomentum(unsigned int pos)
+	int getMomentum(unsigned int pos)
 	{
+                if(pos <= edge_pos)
+                    return 500;
+                
 		return 0;
 	}
 	/**
