@@ -32,6 +32,7 @@
  * 
  * @copyright 2013 Technische Universitaet Muenchen
  * @author Sebastian Rettenberger <rettenbs@in.tum.de>
+ * @author Raphael Dümig <duemig@in.tum.de>
  */
 
 #ifndef SCENARIOS_DAMBREAK_H_
@@ -51,37 +52,37 @@ private:
 
 public:
 	DamBreak(unsigned int size)
-		: m_size(size), edge_pos(size/4)
+		: m_size(size), edge_pos(size/6)
 	{
 	}
 
 	/**
 	 * @return Initial water height at pos
 	 */
-	unsigned int getHeight(unsigned int pos)
+	float getHeight(unsigned int pos)
 	{
 		if (pos <= edge_pos)
-			return 280;
+			return 14.0;
 
-		return 250;
+		return 3.5;
 	}
 	
 	/**
 	 * @return Initial momentum at pos
 	 */
-	int getMomentum(unsigned int pos)
+	float getMomentum(unsigned int pos)
 	{
                 if(pos <= edge_pos)
-                    return 500;
+                    return 0.0;
                 
-		return 0;
+		return 0.7;
 	}
 	/**
 	 * @return Cell size of one cell (= domain size/number of cells)
 	 */
 	T getCellSize()
 	{
-		return 1000.f / m_size;
+		return 30000.f / m_size;
 	}
 };
 
