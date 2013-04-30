@@ -41,7 +41,8 @@
 // possible scenarios
 //#include "scenarios/dambreak.h"
 //#include "scenarios/dambreak_bathy.h"
-#include "scenarios/eisbach.h"
+//#include "scenarios/eisbach.h"
+#include "scenarios/constant_flow.h"
 //#include "scenarios/ShockShock.h"
 //#include "scenarios/rarerare.h"
 
@@ -57,7 +58,7 @@ int main(int argc, char** argv)
 	tools::Args args(argc, argv);
 
 	// Scenario
-	scenarios::Eisbach scenario(args.size());
+	scenarios::ConstantFlow scenario(args.size());
 
 	// Allocate memory
 	// Water height
