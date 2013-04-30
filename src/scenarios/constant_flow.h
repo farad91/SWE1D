@@ -68,6 +68,8 @@ public:
 	 */
 	float getMomentum(unsigned int pos)
 	{
+            if(getBathymetry(pos) > 0.0) return 0.0;
+            
             return 5.0;
 	}
 	
