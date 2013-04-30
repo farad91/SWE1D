@@ -35,8 +35,8 @@
  * @author Raphael Dümig <duemig@in.tum.de>
  */
 
-#ifndef SCENARIOS_DAMBREAK_H_
-#define SCENARIOS_DAMBREAK_H_
+#ifndef SCENARIOS_DAMBREAK_BATHY_H_
+#define SCENARIOS_DAMBREAK_BATHY_H_
 
 #include "types.h"
 
@@ -97,4 +97,4 @@ public:
 
 }
 
-#endif /* SCENARIOS_DAMBREAK_H_ */
+#endif /* SCENARIOS_DAMBREAK_BATHY_H_ */
