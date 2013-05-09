@@ -39,7 +39,10 @@
 #include "WavePropagation.h"
 
 // possible scenarios
-#include "scenarios/dambreak.h"
+//#include "scenarios/dambreak.h"
+//#include "scenarios/dambreak_bathy.h"
+//#include "scenarios/eisbach.h"
+#include "scenarios/constant_flow.h"
 //#include "scenarios/ShockShock.h"
 //#include "scenarios/rarerare.h"
 
@@ -55,18 +58,22 @@ int main(int argc, char** argv)
 	tools::Args args(argc, argv);
 
 	// Scenario
-	scenarios::DamBreak scenario(args.size());
+	scenarios::ConstantFlow scenario(args.size());
 
 	// Allocate memory
 	// Water height
 	T *h = new T[args.size()+2];
 	// Momentum
 	T *hu = new T[args.size()+2];
+        // Bathymetry
+        T *b = new T[args.size()+2];
 
 	// Initialize water height and momentum
+        // (also the ghost cells with index 0 and i+1)
 	for (unsigned int i = 0; i < args.size()+2; i++) {
 		h[i] = scenario.getHeight(i);
 		hu[i] = scenario.getMomentum(i);
+                b[i] = scenario.getBathymetry(i);
 	}
 
 	// Create a writer that is responsible printing out values
@@ -74,7 +81,7 @@ int main(int argc, char** argv)
 	writer::VtkWriter writer("swe1d", scenario.getCellSize());
 
 	// Helper class computing the wave propagation
-	WavePropagation wavePropagation(h, hu, args.size(), scenario.getCellSize());
+	WavePropagation wavePropagation(h, hu, b, args.size(), scenario.getCellSize());
 
 	// Write initial data
 	tools::Logger::logger.info("Initial data");
@@ -82,7 +89,7 @@ int main(int argc, char** argv)
 	// Current time of simulation
 	T t = 0;
 
-	writer.write(t, h, hu, args.size());
+	writer.write(t, h, hu, b, args.size());
 
 	for (unsigned int i = 0; i < args.timeSteps(); i++) {
 		// Do one time step
@@ -102,12 +109,13 @@ int main(int argc, char** argv)
 		t += maxTimeStep;
 
 		// Write new values
-		writer.write(t, h, hu, args.size());
+		writer.write(t, h, hu, b, args.size());
 	}
 
 	// Free allocated memory
 	delete [] h;
 	delete [] hu;
-
+        delete [] b;
+        
 	return 0;
 }

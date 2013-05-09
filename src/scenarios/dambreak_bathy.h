@@ -32,48 +32,69 @@
  * 
  * @copyright 2013 Technische Universitaet Muenchen
  * @author Sebastian Rettenberger <rettenbs@in.tum.de>
+ * @author Raphael Dümig <duemig@in.tum.de>
  */
 
-#include "WavePropagation.h"
+#ifndef SCENARIOS_DAMBREAK_BATHY_H_
+#define SCENARIOS_DAMBREAK_BATHY_H_
 
-T WavePropagation::computeNumericalFluxes()
+#include "types.h"
+
+namespace scenarios
 {
-	float maxWaveSpeed = 0.f;
 
-	// Loop over all edges
-	for (unsigned int i = 1; i < m_size+2; i++) {
-		T maxEdgeSpeed;
+class DamBreak
+{
+private:
+	/** Number of cells */
+	const unsigned int m_size;
+        const unsigned int edge_pos;
 
-		// Compute net updates
-		m_solver.computeNetUpdates( m_h[i-1], m_h[i],
-				m_hu[i-1], m_hu[i],
-				m_b[i-1], m_b[i],	// Bathymetry
-				m_hNetUpdatesLeft[i-1], m_hNetUpdatesRight[i-1],
-				m_huNetUpdatesLeft[i-1], m_huNetUpdatesRight[i-1],
-				maxEdgeSpeed );
-
-		// Update maxWaveSpeed
-		if (maxEdgeSpeed > maxWaveSpeed)
-			maxWaveSpeed = maxEdgeSpeed;
+public:
+	DamBreak(unsigned int size)
+		: m_size(size), edge_pos(size/6)
+	{
 	}
 
-	// Compute CFL condition
-	T maxTimeStep = m_cellSize/maxWaveSpeed * .4f;
+	/**
+	 * @return Initial water height at pos
+	 */
+	float getHeight(unsigned int pos)
+	{
+		if (pos <= edge_pos)
+			return 14.0;
 
-	return maxTimeStep;
-}
-
-void WavePropagation::updateUnknowns(T dt)
-{
-	// Loop over all inner cells
-	for (unsigned int i = 1; i < m_size+1; i++) {
-        m_h[i] -=  dt/m_cellSize * (m_hNetUpdatesRight[i-1] + m_hNetUpdatesLeft[i]);
-        m_hu[i] -= dt/m_cellSize * (m_huNetUpdatesRight[i-1] + m_huNetUpdatesLeft[i]);
+		return 3.5;
 	}
+	
+	/**
+	 * @return Initial momentum at pos
+	 */
+	float getMomentum(unsigned int pos)
+	{
+                if(pos <= edge_pos)
+                    return 0.0;
+                
+		return 0.7;
+	}
+	
+	/**
+         * @return floor elevation at pos
+         */
+	float getBathymetry(unsigned int pos)
+        {
+                return (((float) pos) / m_size - 1) * 200;
+        }
+        
+	/**
+	 * @return Cell size of one cell (= domain size/number of cells)
+	 */
+	T getCellSize()
+	{
+		return 30000.f / m_size;
+	}
+};
+
 }
 
-void WavePropagation::setOutflowBoundaryConditions()
-{
-	m_h[0] = m_h[1]; m_h[m_size+1] = m_h[m_size];
-	m_hu[0] = m_hu[1]; m_hu[m_size+1] = m_hu[m_size];
-}
+#endif /* SCENARIOS_DAMBREAK_BATHY_H_ */
