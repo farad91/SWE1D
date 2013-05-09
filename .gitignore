@@ -9,3 +9,5 @@ build/
 
 # Scons database
 .sconsign.dblite
+
+*~
