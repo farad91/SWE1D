@@ -42,9 +42,10 @@
 //#include "scenarios/dambreak.h"
 //#include "scenarios/dambreak_bathy.h"
 //#include "scenarios/eisbach.h"
-#include "scenarios/constant_flow.h"
+//#include "scenarios/constant_flow.h"
 //#include "scenarios/ShockShock.h"
 //#include "scenarios/rarerare.h"
+#include "scenarios/Supercritical_flow.h"
 
 //#include "writer/ConsoleWriter.h"
 #include "writer/VtkWriter.h"
@@ -58,22 +59,22 @@ int main(int argc, char** argv)
 	tools::Args args(argc, argv);
 
 	// Scenario
-	scenarios::ConstantFlow scenario(args.size());
+	scenarios::Supercrit scenario(args.size());
 
 	// Allocate memory
 	// Water height
 	T *h = new T[args.size()+2];
 	// Momentum
 	T *hu = new T[args.size()+2];
-        // Bathymetry
-        T *b = new T[args.size()+2];
+    // Bathymetry
+    T *b = new T[args.size()+2];
 
 	// Initialize water height and momentum
         // (also the ghost cells with index 0 and i+1)
 	for (unsigned int i = 0; i < args.size()+2; i++) {
 		h[i] = scenario.getHeight(i);
 		hu[i] = scenario.getMomentum(i);
-                b[i] = scenario.getBathymetry(i);
+        b[i] = scenario.getBathymetry(i);
 	}
 
 	// Create a writer that is responsible printing out values
@@ -115,7 +116,7 @@ int main(int argc, char** argv)
 	// Free allocated memory
 	delete [] h;
 	delete [] hu;
-        delete [] b;
+    delete [] b;
         
 	return 0;
 }
