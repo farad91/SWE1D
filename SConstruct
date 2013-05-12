@@ -52,7 +52,14 @@ print ''
 import os
 
 # Scons environement
-env = Environment()
+vars = Variables()
+vars.AddVariables(  
+                EnumVariable( 'scenario', 'choose scenario to compile', 'default',
+                allowed_values=('default', 'subcrit','supercrit')              
+              )
+)
+env = Environment(variables = vars)
+
 
 # eclipse specific flag
 env.Append(CCFLAGS=['-fmessage-length=0'])
@@ -60,6 +67,12 @@ env.Append(CCFLAGS=['-fmessage-length=0'])
 # Add source directory to include path (important for subdirectories)
 env.Append(CPPPATH=['.'])
 
+# change scenario
+if env['scenario'] == 'supercrit':
+  env.Append(CPPDEFINES=['SUPERCRIT'])
+if env['scenario'] == 'subcrit':
+  env.Append(CPPDEFINES=['SUBCRIT'])
+  
 # Output directory
 buildDir = '#build'
 

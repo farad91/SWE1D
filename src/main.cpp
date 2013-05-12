@@ -45,7 +45,15 @@
 //#include "scenarios/constant_flow.h"
 //#include "scenarios/ShockShock.h"
 //#include "scenarios/rarerare.h"
+#ifdef SUPERCRIT
 #include "scenarios/Supercritical_flow.h"
+#else
+#ifdef SUBCRIT
+#include "scenarios/Subcritical_flow.h"
+#else
+#include "scenarios/eisbach.h"
+#endif
+#endif
 
 //#include "writer/ConsoleWriter.h"
 #include "writer/VtkWriter.h"
@@ -59,7 +67,15 @@ int main(int argc, char** argv)
 	tools::Args args(argc, argv);
 
 	// Scenario
+	#ifdef SUPERCRIT
 	scenarios::Supercrit scenario(args.size());
+	#else
+	#ifdef SUBCRIT
+	scenarios::Subcrit scenario(args.size());
+	#else
+	scenarios::Eisbach scenario(args.size());
+	#endif
+	#endif
 
 	// Allocate memory
 	// Water height
